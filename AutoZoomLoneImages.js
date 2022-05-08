@@ -8,8 +8,8 @@
 // @grant          GM.xmlHttpRequest
 // @grant          GM_addStyle
 // @connect        unpkg.com
-// @downloadURL    https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AutoZoomLoneImages.js
-// @updateURL      https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AutoZoomLoneImages.js
+// @downloadURL    
+// @updateURL      
 // ==/UserScript==
 
 /*
