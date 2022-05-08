@@ -7,8 +7,8 @@
 // @match        https://nebula.app/videos/*
 // @icon         https://www.google.com/s2/favicons?domain=nebula.app
 // @grant        none
-// @downloadURL  https://raw.githubusercontent.com/Codedotexe/Userscripts/main/NebularResizeVideos
-// @updateURL    https://raw.githubusercontent.com/Codedotexe/Userscripts/main/NebularResizeVideos
+// @downloadURL  https://raw.githubusercontent.com/Codedotexe/Userscripts/main/NebularResizeVideos.js
+// @updateURL    https://raw.githubusercontent.com/Codedotexe/Userscripts/main/NebularResizeVideos.js
 // ==/UserScript==
 
 (function() {

@@ -6,8 +6,8 @@
 // @match        https://adventofcode.com/*
 // @icon         https://www.google.com/s2/favicons?domain=adventofcode.com
 // @grant        GM_addStyle
-// @downloadURL  https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AdventOfCode%20Prettifier
-// @updateURL    https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AdventOfCode%20Prettifier
+// @downloadURL  https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AdventOfCodePrettifier.js
+// @updateURL    https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AdventOfCodePrettifier.js
 
 // ==/UserScript==
 

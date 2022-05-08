@@ -6,8 +6,8 @@
 // @include      /^https?://.*\.(mp4|webm|mkv|m4a|avi).*$/
 // @run-at       window-load
 // @grant        none
-// @downloadURL  https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AutoZoomLoneVideos
-// @updateURL    hhttps://raw.githubusercontent.com/Codedotexe/Userscripts/main/AutoZoomLoneVideos
+// @downloadURL  https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AutoZoomLoneVideos.js
+// @updateURL    hhttps://raw.githubusercontent.com/Codedotexe/Userscripts/main/AutoZoomLoneVideos.js
 // ==/UserScript==
 
 'use strict';

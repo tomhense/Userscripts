@@ -8,8 +8,8 @@
 // @run-at        document-idle
 // @icon          https://www.google.com/s2/favicons?domain=reddit.com
 // @version       1.3
-// @downloadURL   https://raw.githubusercontent.com/Codedotexe/Userscripts/main/RedirectToOldReddit
-// @updateURL     https://raw.githubusercontent.com/Codedotexe/Userscripts/main/RedirectToOldReddit
+// @downloadURL   https://raw.githubusercontent.com/Codedotexe/Userscripts/main/RedirectToOldReddit.js
+// @updateURL     https://raw.githubusercontent.com/Codedotexe/Userscripts/main/RedirectToOldReddit.js
 // ==/UserScript==
 
 (function() {

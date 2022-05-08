@@ -7,8 +7,8 @@
 // @match        https://imgur.com/*
 // @icon         https://www.google.com/s2/favicons?domain=imgur.com
 // @grant        none
-// @downloadURL  https://raw.githubusercontent.com/Codedotexe/Userscripts/main/ImgurRedirectToImage
-// @updateURL    https://raw.githubusercontent.com/Codedotexe/Userscripts/main/ImgurRedirectToImage
+// @downloadURL  https://raw.githubusercontent.com/Codedotexe/Userscripts/main/ImgurRedirectToImage.js
+// @updateURL    https://raw.githubusercontent.com/Codedotexe/Userscripts/main/ImgurRedirectToImage.js
 // ==/UserScript==
 
 function allowNsfw() {
