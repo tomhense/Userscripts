@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Auto zoom lone images
-// @version        7
+// @version        6
 // @author         Codedotexe
 // @description    Automatically zoom small standalone images
 // @include        /^https?:\/\/.*$/
@@ -13,12 +13,10 @@
 // ==/UserScript==
 
 /*
-Uses https://github.com/timmywil/panzoom
+Uses https://github.com/anvaka/panzoom
 */
 
 'use strict';
-
-let curZoomMode = "min";
 
 // Fetch text from a url
 function fetchText(url) {
@@ -34,11 +32,12 @@ function fetchText(url) {
 	});
 }
 
-
-function addTriggers(panzoom) {
+function addTriggers(instance) {
 	document.addEventListener('keydown', (ev) => {
 		if(ev.code == "Space") {
 			ev.preventDefault();
+			instance.moveTo(0, 0);
+			instance.zoomAbs(0, 0, 1);
 		}
 	});
 }
@@ -58,13 +57,10 @@ function addTriggers(panzoom) {
 
 		// Replace with clone so that default zoom function is disabled (maybe there is a better way?)
 		const image = document.querySelector("img").cloneNode();
-		const container = document.createElement("div");
-		container.appendChild(image);
-		document.body.appendChild(container);
-		document.querySelector("img").remove();
+		document.querySelector("img").replaceWith(image);
 
 		// Load a script and add it to the document
-		fetchText("https://unpkg.com/@panzoom/panzoom@latest/dist/panzoom.min.js").then(html => {
+		fetchText("https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js").then((html) => {
 			// Add the fetched js to the document as a script element
 			const scriptElem = document.createElement('script');
 			scriptElem.innerText = html.responseText;
@@ -72,12 +68,15 @@ function addTriggers(panzoom) {
 
 			console.log("Script loaded");
 
-			// Panzoom only becomes available after script load
-			const panzoom = Panzoom(image, {
-				maxScale: 5
+			// Only becomes available after script load
+			const instance = panzoom(image, {
+				filterKey: () => { return true }, // Don't use keyboard shortcuts
+				bounds: true, // Have a bouding box
+				boundsPadding: 0.05,
+				transformOrigin: {x: 0.5, y: 0.5} // Fixed transform origin at the center of the screen
 			});
-			console.log(panzoom);
-			image.parentElement.addEventListener('wheel', panzoom.zoomWithWheel);
+			console.log(instance);
+			addTriggers(instance);
 		}).catch(console.log); // Error occured
 	}
 })();
