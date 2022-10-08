@@ -1,49 +1,34 @@
 // ==UserScript==
-// @name           Auto zoom lone images
-// @version        3
-// @description    Automatically zoom small standalone images
-// @include        /^https?://.*\.(jpe?g|gif|png).*$/
-// @run-at         window-load
+// @name         Auto zoom lone videos
+// @version      2
+// @author       Codedotexe
+// @description  Automatically zoom small standalone videos
+// @include      /^https?://.*\.(mp4|webm|mkv|m4a|avi).*$/
+// @run-at       window-load
+// @grant        none
+// @downloadURL  https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AutoZoomLoneVideos.js
+// @updateURL    hhttps://raw.githubusercontent.com/Codedotexe/Userscripts/main/AutoZoomLoneVideos.js
 // ==/UserScript==
 
-const img = document.images[0];
-const iw = img.width;
-const ih = img.height;
-const ir = iw / ih;
+'use strict';
 
-function togglezoom() {
-	if (img.width>iw || img.height>ih) {
-		img.width = iw;
-		img.height = ih;
-		img.setAttribute("style","cursor:-moz-zoom-in");
-	} else {
-        zoomin();
-    }
-}
-
-function zoomin() {
-	const ww = window.innerWidth;
-	const wh = window.innerHeight;
-
-	if (iw<ww && ih<wh) {
-		img.addEventListener("click", togglezoom, false);
-		const zohw = wh * ir;
-
-		if (zohw<=ww) {
-			img.height = wh;
-			img.width = img.height * ir;
-			img.setAttribute("style","cursor:-moz-zoom-out");
-		} else {
-			img.width = ww;
-			img.height = img.width / ir;
-			img.setAttribute("style","cursor:-moz-zoom-out");
-		}
-
-	}
-
+function resize(video) {
+	video.width = window.innerWidth;
+	video.height = window.innerHeight;
 }
 
 (function() {
-    zoomin();
-})();
+	const isToplevelVideo = document.querySelector("head link[href='resource://content-accessible/TopLevelVideoDocument.css']") != null;
 
+	if(isToplevelVideo) {
+		const video = document.querySelector("video");
+		const aspectRatio = video.videoWidth / video.videoHeight;
+		video.loop = true; // Enable looping
+
+		window.addEventListener("resize", () => {
+			resize(video);
+		});
+
+		resize(video);
+	}
+})();
