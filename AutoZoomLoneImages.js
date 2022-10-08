@@ -1,6 +1,6 @@
 // ==UserScript==
 // @name           Auto zoom lone images
-// @version        6
+// @version        7
 // @author         Codedotexe
 // @description    Automatically zoom small standalone images
 // @include        /^https?:\/\/.*$/
@@ -13,10 +13,12 @@
 // ==/UserScript==
 
 /*
-Uses https://github.com/anvaka/panzoom
+Uses https://github.com/timmywil/panzoom
 */
 
 'use strict';
+
+let curZoomMode = "min";
 
 // Fetch text from a url
 function fetchText(url) {
@@ -32,12 +34,11 @@ function fetchText(url) {
 	});
 }
 
-function addTriggers(instance) {
+
+function addTriggers(panzoom) {
 	document.addEventListener('keydown', (ev) => {
 		if(ev.code == "Space") {
 			ev.preventDefault();
-			instance.moveTo(0, 0);
-			instance.zoomAbs(0, 0, 1);
 		}
 	});
 }
@@ -57,10 +58,13 @@ function addTriggers(instance) {
 
 		// Replace with clone so that default zoom function is disabled (maybe there is a better way?)
 		const image = document.querySelector("img").cloneNode();
-		document.querySelector("img").replaceWith(image);
+		const container = document.createElement("div");
+		container.appendChild(image);
+		document.body.appendChild(container);
+		document.querySelector("img").remove();
 
 		// Load a script and add it to the document
-		fetchText("https://unpkg.com/panzoom@9.4.0/dist/panzoom.min.js").then((html) => {
+		fetchText("https://unpkg.com/@panzoom/panzoom@latest/dist/panzoom.min.js").then(html => {
 			// Add the fetched js to the document as a script element
 			const scriptElem = document.createElement('script');
 			scriptElem.innerText = html.responseText;
@@ -68,15 +72,12 @@ function addTriggers(instance) {
 
 			console.log("Script loaded");
 
-			// Only becomes available after script load
-			const instance = panzoom(image, {
-				filterKey: () => { return true }, // Don't use keyboard shortcuts
-				bounds: true, // Have a bouding box
-				boundsPadding: 0.05,
-				transformOrigin: {x: 0.5, y: 0.5} // Fixed transform origin at the center of the screen
+			// Panzoom only becomes available after script load
+			const panzoom = Panzoom(image, {
+				maxScale: 5
 			});
-			console.log(instance);
-			addTriggers(instance);
+			console.log(panzoom);
+			image.parentElement.addEventListener('wheel', panzoom.zoomWithWheel);
 		}).catch(console.log); // Error occured
 	}
 })();
