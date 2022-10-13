@@ -1,9 +1,13 @@
 // ==UserScript==
 // @name         Auto zoom lone videos
-// @version      2
+// @version      3
 // @author       Codedotexe
 // @description  Automatically zoom small standalone videos
-// @include      /^https?://.*\.(mp4|webm|mkv|m4a|avi).*$/
+// @match        *://*/*.mp4
+// @match        *://*/*.webm
+// @match        *://*/*.mkv
+// @match        *://*/*.m4a
+// @match        *://*/*.avi
 // @run-at       window-load
 // @grant        none
 // @downloadURL  https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AutoZoomLoneVideos.js
