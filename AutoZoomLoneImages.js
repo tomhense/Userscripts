@@ -1,9 +1,9 @@
 // ==UserScript==
 // @name           Auto zoom lone images
-// @version        9
+// @version        10
 // @author         Codedotexe
 // @description    Automatically zoom small standalone images
-// @include        /^https?:\/\/.*$/
+// @match          *://*/*
 // @run-at         window-load
 // @grant          GM_addStyle
 // @require        https://unpkg.com/panzoom@9.4.3/dist/panzoom.min.js
@@ -14,15 +14,26 @@
 'use strict';
 
 function zoomToFill(instance) {
-	instance.pause();
 	const zoomable = document.querySelector(".zoomable");
+	const zoomableWidth = zoomable.clientWidth;
+	const zoomableHeight = zoomable.clientHeight;
 
 	const image = document.querySelector("img");
 
-	const zoomFactor = zoomable.clientHeight / image.clientHeight;
-	const offsetX = (1-zoomFactor) * zoomable.clientWidth /2;
-	const offsetY = (1-zoomFactor) * zoomable.clientHeight /2;
+	const aspectRatioZoomable = zoomableWidth / zoomableHeight;
+	const aspectRatioImage = image.naturalWidth / image.naturalHeight;
 
+	let zoomFactor;
+	if(aspectRatioZoomable < aspectRatioImage) {
+		zoomFactor = zoomableHeight / image.clientHeight;
+	} else {
+		zoomFactor = zoomableWidth / image.clientWidth;
+	}
+
+	const offsetX = (1-zoomFactor) * zoomableWidth /2;
+	const offsetY = (1-zoomFactor) * zoomableHeight /2;
+
+	instance.pause();
 	instance.zoomAbs(0, 0, zoomFactor);
 	instance.moveTo(offsetX, offsetY);
 	instance.resume();
