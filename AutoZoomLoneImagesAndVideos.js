@@ -1,19 +1,19 @@
 // ==UserScript==
-// @name           Auto zoom lone images
-// @version        10
+// @name           Auto zoom lone images & videos
+// @version        11
 // @author         Codedotexe
 // @description    Automatically zoom small standalone images
 // @match          *://*/*
 // @run-at         window-load
 // @grant          GM_addStyle
 // @require        https://unpkg.com/panzoom@9.4.3/dist/panzoom.min.js
-// @downloadURL    https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AutoZoomLoneImages.js
-// @updateURL      https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AutoZoomLoneImages.js
+// @downloadURL    https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AutoZoomLoneImagesAndVideos.js
+// @updateURL      https://raw.githubusercontent.com/Codedotexe/Userscripts/main/AutoZoomLoneImagesAndVideos.js
 // ==/UserScript==
 
 'use strict';
 
-function zoomToFill(instance) {
+function imgZoomToFill(instance) {
 	const zoomable = document.querySelector(".zoomable");
 	const zoomableWidth = zoomable.clientWidth;
 	const zoomableHeight = zoomable.clientHeight;
@@ -39,14 +39,14 @@ function zoomToFill(instance) {
 	instance.resume();
 }
 
-function zoomToFit(instance) {
+function imgZoomToFit(instance) {
 	instance.pause();
 	instance.zoomAbs(0, 0, 1);
 	instance.moveTo(0, 0);
 	instance.resume();
 }
 
-function showImageInfo() {
+function imgShowImageInfo() {
 	if(document.getElementById("infoElement")) {
 		document.getElementById("infoElement").remove();
 	} else {
@@ -58,29 +58,35 @@ function showImageInfo() {
 	}
 }
 
-function addTriggers(instance) {
+function imgAddTriggers(instance) {
 	document.addEventListener('keydown', (ev) => {
 		if(ev.code == "Space" && !ev.shiftKey) {
 			ev.preventDefault();
-			zoomToFit(instance);
+			imgZoomToFit(instance);
 		} else if(ev.code == "Space" && ev.shiftKey) {
 			ev.preventDefault();
-			zoomToFill(instance);
+			imgZoomToFill(instance);
 		} else if(ev.code== 'KeyQ') {
 			ev.preventDefault();
-			showImageInfo();
+			imgShowImageInfo();
 		}
 	});
 	document.addEventListener('mousedown', (ev) => {
 		if(ev.buttons == 4) { // Middle mouse button
 			ev.preventDefault();
-			zoomToFit(instance);
+			imgZoomToFit(instance);
 		}
 	});
 }
 
+function vidResize(video) {
+	video.width = window.innerWidth;
+	video.height = window.innerHeight;
+}
+
 (function() {
 	const isToplevelImage = document.querySelector("head link[href='resource://content-accessible/TopLevelImageDocument.css']") != null;
+	const isToplevelVideo = document.querySelector("head link[href='resource://content-accessible/TopLevelVideoDocument.css']") != null;
 
 	if(isToplevelImage) {
 		// Disable scroll bar and image magnifying lense
@@ -123,6 +129,16 @@ function addTriggers(instance) {
 			maxZoom: 10
 		});
 		console.log(instance);
-		addTriggers(instance);
+		imgAddTriggers(instance);
+	} else if(isToplevelVideo) {
+		const video = document.querySelector("video");
+		const aspectRatio = video.videoWidth / video.videoHeight;
+		video.loop = true; // Enable looping
+
+		window.addEventListener("resize", () => {
+			vidResize(video);
+		});
+
+		vidResize(video);
 	}
 })();
